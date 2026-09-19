@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-20",
+  "serverRelease": "server-preview-2026.09.20.1",
+  "clientVersion": "0.1.0-preview.8+36",
+  "nativeEnvironment": "Ubuntu 22.04 x86-64, virtual X11 display, OS certificate trust and Secret Service",
+  "network": "Independent Docker networks with internet egress disabled; no hosted Talkrax access",
+  "passed": [
+    "fresh migrations and HTTPS health",
+    "independent operator metadata",
+    "both service networks have no internet egress",
+    "owner bootstrap rejects unverified account",
+    "SMTP STARTTLS verification and rejection without MFA",
+    "MFA owner bootstrap succeeds once",
+    "administrator login and authenticated summary",
+    "admin requires authentication with forged client IP headers",
+    "exactly one owner bootstrap audit event",
+    "two independent accounts exchange direct messages",
+    "authorized attachment upload and verified download",
+    "confirmed deletion remains in review and cannot be falsely completed",
+    "independent worker produces account export",
+    "export download contains own account and rejects another user",
+    "independent SMTP password recovery revokes old session",
+    "accounts, message and confirmed deletion persist after restart",
+    "fresh-project backup restore preserves database, files, keys and bootstrap lock",
+    "restore refuses existing instance resources",
+    "real admin sign-in with MFA",
+    "correct admin API routing",
+    "disabled setup hidden",
+    "no false deletion completion",
+    "review decision saved and reloaded",
+    "privacy review audit identifies the staff reviewer",
+    "installed Linux client reviews and selects independent server",
+    "installed Linux client signs in with MFA without hosted connectivity",
+    "native secure storage preserves selected server and authenticated session after restart"
+  ],
+  "limits": [
+    "Synthetic accounts and virtual display; no physical microphone or camera test",
+    "Public-network media, Wayland, Windows and automatic server upgrades are not accepted",
+    "Integrated messaging/file E2EE and Discord migration are not released"
+  ]
+}

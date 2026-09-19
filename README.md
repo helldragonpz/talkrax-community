@@ -6,6 +6,9 @@ An **independent Linux server preview** is now available as compiled server
 images and operator tools. It runs its own accounts, database, file storage,
 SMTP configuration, media service and administrator console.
 
+The installed Linux client (build 36) has passed server selection, MFA sign-in
+and session recovery with the official hosted service unreachable.
+
 [Download the server preview](https://github.com/helldragonpz/talkrax-community/releases/tag/server-preview-2026.09.20.1)
 - [Install and operate your own server](docs/SELF_HOSTING.md)
 - [Install and connect the Linux client](docs/CLIENT_INSTALLATION.md)
