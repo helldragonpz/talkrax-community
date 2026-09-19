@@ -1,56 +1,121 @@
-# Independent server operator guide
+# Talkrax independent Linux server preview
 
-**Pre-release status:** no complete server installer or accepted binary image
-inventory is published. The steps below describe the required deployment and
-acceptance process, not commands for an already available package.
+This package runs its own accounts, database, file storage, mail configuration,
+media service and administration. It contains server binaries, not proprietary
+application source. Read BINARY-LICENCE.txt and THIRD-PARTY-NOTICES before use.
 
-## Intended deployment
-A server installation uses its own API and worker, PostgreSQL, internal Redis,
-persistent storage, LiveKit and HTTPS reverse proxy. Windows/Linux desktop clients
-connect to the operator's HTTPS address. The operator supplies email delivery,
-DNS, TLS, firewall configuration, media capacity and public policies.
+This preview has passed isolated Linux installation, account verification/MFA,
+administrator sign-in, direct messages, file transfer, account export, password
+recovery, restart and backup/restore checks. Its services were denied internet
+egress during those checks. Public-network voice/video, restrictive-NAT/TURN
+support, a separate Windows server installer, and a current Windows client have
+not passed release acceptance. Private text/files are currently service-readable;
+integrated messaging/file E2EE and Discord migration are not released.
 
-A Windows server release needs a tested supported runtime and installation path;
-a Linux Compose prototype alone is not a native Windows server release.
-Database and cache ports must remain private. Media needs independently
-reachable TCP/UDP paths; an advertised NIC speed is not verified internet capacity.
+## Before installation
 
-## New installation requirements
-The eventual versioned release must include a reviewed installer/configuration
-tool, exact immutable image inventory, supported operating systems, third-party
-notices and checksums. It must create fresh keys and credentials for each
-installation and securely provision the first operator. Never copy official
-Talkrax secrets, user data or seed accounts.
+Use a Linux x86-64 host with Docker Engine, Docker Compose v2 and Python 3.10 or
+newer. Installation was exercised with PostgreSQL 17, the digest-pinned
+dependencies in images.json and the native Linux build 35 client.
 
-The operator provides a server name, real contact details, published privacy and
-terms URLs, API/media hostnames, a verified public media address and SMTP
-submission credentials. Secret configuration belongs in protected local storage,
-not this repository.
+Provide two DNS names pointing to the server and working SMTP credentials.
+Allow inbound TCP 80 and 443 for HTTPS; media additionally needs TCP 7881 and UDP
+50000-50100 forwarded to this host. Use your actual reachable public IP in
+mediaPublicIp, not a private/LAN address. No bandwidth or participant guarantee
+is implied by configured limits. TURN is not configured in this preview.
 
-## First-use acceptance
-Before inviting users, verify registration and email delivery, independent
-accounts, administrator access and MFA, private room permissions, messaging,
-file permissions, calls between different networks and restricted media policy.
-Test recovery after a restart and deny access to revoked accounts/devices.
+Keep the adminAllowedCidrs list limited to your administrator public IP or VPN.
+Do not list a broad public range. Caddy is the only trusted proxy. Adding another
+proxy requires a reviewed configuration change, not accepting client-supplied
+forwarding headers.
 
-Encrypted messaging, encrypted history recovery and Discord migration must not
-be advertised until their separate implementations and acceptance tests pass.
+Do not install over an existing directory. Backups must preserve the database,
+stored files and the original instance keys together.
 
-## Updates and backups
-A versioned update must preserve installed authentication/storage keys and
-persistent database and uploaded files. Back up those items together before
-applying a database migration. Test restoration into an isolated instance.
-Starting a fresh installer over an existing installation is not an update.
+## Install
 
-A backup containing secrets needs access control and encryption. Losing a storage
-key can make stored operational secrets unusable. Keeping a database without its
-matching keys is not a verified recovery plan.
+Extract the release into a directory you own, then verify SHA256SUMS.txt.
+The binary image archive and the operator-tools archive are separate release
+assets. Extract the tools, put the image archive beside images.json, then run:
 
-## Independence boundary
-Official subscriptions, marketplace services, push credentials, private source
-and paid artwork are not automatically included. The intended product permits
-normal operation and configuration by its owner; proprietary software and
-third-party components remain subject to their respective terms.
+    sha256sum -c SHA256SUMS.txt
+    docker load --input Talkrax-Independent-Server-2026.09.20-preview.1-images.tar.gz
+    chmod 700 .
+    cp operator.example.json operator.json
+    chmod 600 operator.json
 
-Release acceptance must prove that official Talkrax services can be unavailable
-without breaking local accounts, ordinary server operation or locally hosted media.
+Edit operator.json with your own details, SMTP credentials and admin IP ranges.
+The example intentionally fails validation until you replace those values.
+The policy URLs must be your own published policies.
+
+    python3 configure.py --operator operator.json --images images.json --output instance
+    python3 manage.py --directory instance --project talkrax-my-community start
+    python3 manage.py --directory instance --project talkrax-my-community status
+
+Initial dependency images are fetched by immutable digest from their upstream
+registries. The supplied Talkrax API/worker/admin images are loaded from the
+binary archive. No Talkrax source build, official login, licence-server connection
+or access to the official database is required.
+
+The generated directory is mode 0700. Read-only bind files inside it are mode
+0444 so unprivileged containers can read them; other local users cannot traverse
+the parent directory. Do not make that directory public or copy those files to
+a web root. operator.json and backups also contain secrets.
+
+## Connect the client and appoint the owner
+
+Install the current Linux .deb from the Talkrax release downloads, or extract the
+portable Linux archive. At sign-in select Change server, enter your HTTPS origin,
+review the operator and policies, and select Use server. Accounts and sessions
+are separate for each origin.
+
+Register a new account on your instance, verify its email, and enable
+authenticator MFA in User Settings. Then run on the server:
+
+    python3 manage.py --directory instance --project talkrax-my-community appoint-owner --email owner@your-domain.example --reason "Initial community server setup"
+
+The command rejects unverified accounts, accounts without confirmed MFA, hosted
+instances and second attempts. It records the appointment. No default admin
+password or special email address grants ownership.
+
+Open https://chat.your-domain.example/admin from an allowed admin address and
+sign in with that account and MFA. Staff management, reports, operational settings
+and privacy-request review are provided by this instance's administration
+service. Completing a privacy request does not erase an account: the preview
+cannot mark an unexecuted erasure as completed.
+
+## Backup and restore
+
+    python3 manage.py --directory instance --project talkrax-my-community backup --output backup-2026-09-20
+
+Backup briefly pauses this instance's API, worker and admin processes to keep its
+database and files consistent, and resumes them in a finally block. It does not
+pause other projects. Store the private backup on protected off-host storage;
+it contains user data and instance keys. Its manifest verifies accidental
+corruption, not the authenticity of an untrusted third-party backup.
+
+Restore always requires a NEW project and directory:
+
+    python3 manage.py --directory restored-instance --project talkrax-restored-community restore --backup backup-2026-09-20
+
+Restore verifies checksums, rejects unsafe storage archive entries and refuses
+existing project resources. It preserves account data and keys, allocates a fresh
+private bridge subnet and starts only the new database. Inspect DNS, media IP
+and published ports before starting restored services; do not run both instances
+against the same public ports.
+
+    python3 manage.py --directory restored-instance --project talkrax-restored-community start
+
+## Update and removal
+
+There is no accepted automated update path for this first preview. Back up before
+any later update, retain the original keys and follow that release's migration
+instructions. Never rerun the new-install generator on existing data.
+
+To remove the running preview, use Docker Compose with this exact project's name
+and compose.json. Stopping/removing containers does not remove named volumes
+unless you explicitly request volume deletion. Keep a verified backup before
+deleting any volumes or instance directory.
+
+Windows packaging and media acceptance remain open. Do not describe this Linux
+preview as the completed Windows/Linux distribution.

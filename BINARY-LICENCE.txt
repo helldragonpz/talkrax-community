@@ -1,0 +1,32 @@
+Talkrax Community Binary Licence - preview 1
+Copyright (c) 2026 Alexandar Penev.
+
+Permission is granted, without a licence fee, to download and run the unmodified
+official Talkrax Community server and supported desktop client binaries for your
+own use and communities. You may configure your installation using the supplied
+operator tools and documented settings. No official Talkrax account or hosted
+subscription is required to operate an independent instance.
+
+Talkrax proprietary source code, artwork and trademarks remain reserved. This
+licence does not grant permission to distribute modified Talkrax binaries, create
+a competing derivative of the proprietary core, redistribute proprietary source,
+or sell Talkrax-branded software. Do not remove proprietary attribution.
+
+These restrictions do not limit rights granted by licences of third-party
+components, or any rights that cannot be excluded under applicable law, including
+applicable software interoperability, backup and error-correction rights.
+Third-party components retain their own licences; see THIRD-PARTY-NOTICES.
+
+Independent operators control their instance, users and stored data and must
+provide their own accurate privacy information, contact details and operating
+terms. This licence is not a data-processing agreement or legal approval of an
+operator's service.
+
+This is preview software. It has no uptime or support commitment. To the extent
+permitted by law, it is supplied as-is without warranties. Nothing here excludes
+liability or consumer rights that cannot lawfully be excluded. Paid hosted
+services, if purchased separately, have separate applicable terms.
+
+Installation scripts supplied with this distribution may be adapted to operate
+your own installation. This permission does not grant access to the proprietary
+application source or change the licences of dependencies.
