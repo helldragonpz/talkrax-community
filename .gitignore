@@ -7,3 +7,5 @@ secrets/
 *.pfx
 *.dump
 *.backup
+__pycache__/
+*.pyc

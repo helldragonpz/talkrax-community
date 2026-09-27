@@ -16,7 +16,7 @@ integrated messaging/file E2EE and Discord migration are not released.
 
 Use a Linux x86-64 host with Docker Engine, Docker Compose v2 and Python 3.10 or
 newer. Installation was exercised with PostgreSQL 17, the digest-pinned
-dependencies in images.json and the native Linux build 35 client.
+dependencies in images.json and the native Linux build 36 client.
 
 Provide two DNS names pointing to the server and working SMTP credentials.
 Allow inbound TCP 80 and 443 for HTTPS; media additionally needs TCP 7881 and UDP
@@ -33,6 +33,11 @@ Do not install over an existing directory. Backups must preserve the database,
 stored files and the original instance keys together.
 
 ## Install
+
+The newer operator-tools archive can be used with the existing server-image
+archive. Download the binary image archive and its checksums from the server
+preview release separately; the operator-tools release checksum covers only
+the tools archive. See UPDATES.md for downloading the complete current tools.
 
 Extract the release into a directory you own, then verify SHA256SUMS.txt.
 The binary image archive and the operator-tools archive are separate release
@@ -108,9 +113,12 @@ against the same public ports.
 
 ## Update and removal
 
-There is no accepted automated update path for this first preview. Back up before
-any later update, retain the original keys and follow that release's migration
-instructions. Never rerun the new-install generator on existing data.
+Application-image updates now have a tested backup, health-check and failure
+recovery path. See [UPDATES.md](UPDATES.md) for the complete operator-tools package,
+read-only planning, maintenance-window application and fresh-project recovery.
+Only a future release with a reviewed compatible update manifest can be applied.
+Database/cache/media/proxy upgrades still require separate migration instructions.
+Never rerun the new-install generator on existing data.
 
 To remove the running preview, use Docker Compose with this exact project's name
 and compose.json. Stopping/removing containers does not remove named volumes

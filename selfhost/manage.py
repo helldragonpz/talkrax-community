@@ -145,14 +145,22 @@ def main():
   restore(args.backup,args.directory,args.project)
   print('Backup restored to a new isolated project. Only its database is running. Review ports and DNS before start.')
   return
- directory,base=installation(args.directory,args.project)
- if args.operation=='start':execute(base+['up','-d'])
- elif args.operation=='status':execute(base+['ps'])
- elif args.operation=='appoint-owner':
-  execute(base+['exec','-T','api','dotnet','Talkrax.Api.dll','bootstrap-owner',args.email,args.reason])
- elif args.operation=='backup':
-  backup(directory,args.project,args.output)
-  print('Backup verified and saved in a private directory. Protect it: it contains account data and instance keys.')
+ # Serialize CLI mutations with image upgrades. Imported functions are used by
+ # the upgrade transaction itself and deliberately do not acquire a second lock.
+ from upgrade import lock
+ with lock(args.directory):
+  directory,base=installation(args.directory,args.project)
+  if args.operation=='start':
+   state=directory/'.upgrade-state.json'
+   if state.exists() and json.loads(state.read_text()).get('status')!='healthy':
+    raise ValueError('An incomplete upgrade requires recovery; do not start old binaries on potentially migrated data')
+   execute(base+['up','-d'])
+  elif args.operation=='status':execute(base+['ps'])
+  elif args.operation=='appoint-owner':
+   execute(base+['exec','-T','api','dotnet','Talkrax.Api.dll','bootstrap-owner',args.email,args.reason])
+  elif args.operation=='backup':
+   backup(directory,args.project,args.output)
+   print('Backup verified and saved in a private directory. Protect it: it contains account data and instance keys.')
 
 if __name__=='__main__':
  try:main()
