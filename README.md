@@ -16,9 +16,17 @@ and session recovery with the official hosted service unreachable.
 - [Update and recover an independent server](docs/UPDATES.md)
 - [Binary licence](BINARY-LICENCE.txt)
 
-This is a binary distribution repository. Proprietary Talkrax application source
-is not published here. Operator scripts are supplied so you can configure and
-operate your own installation.
+This repository contains the binary preview, operator tools and two independently
+buildable **AGPL-3.0-only source libraries**:
+- [Community design](packages/talkrax_design): neutral light/dark themes, accessibility
+  settings and generic theme contracts; no paid artwork.
+- [Server connection](packages/talkrax_connection): server address validation,
+  operator discovery and separate credential namespaces.
+
+[Build and use the source libraries](docs/SOURCE_BUILD.md).
+These are components, not the complete client/server source release. The binary
+preview retains its separate proprietary licence. Licence scope and excluded
+assets are explained in [LICENSING.md](LICENSING.md).
 
 The preview is not the completed Windows/Linux edition. Windows packaging,
 public-network media/TURN acceptance and the open-source application split remain open.

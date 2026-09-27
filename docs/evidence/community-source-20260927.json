@@ -1,0 +1,27 @@
+{
+  "components": [
+    "talkrax_design",
+    "talkrax_connection"
+  ],
+  "licence": "AGPL-3.0-only",
+  "completeApplication": false,
+  "files": {
+    "packages/talkrax_design/LICENSE": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+    "packages/talkrax_design/README.md": "38876d157b9a3cdaa8a4d602c0f3d20538ffa2f3098f5f3d95ade81583f14dfb",
+    "packages/talkrax_design/pubspec.yaml": "6e96ea25fe791cdd58b125f685359793a0416da405b76d7546302ca5b5c3e1d0",
+    "packages/talkrax_design/analysis_options.yaml": "c1e9534c05acb3643e72a82ad3d92d56d2ba9b0df2add014c18f7e1d462f24e4",
+    "packages/talkrax_design/lib/talkrax_design.dart": "7733e69978203e66e4cada036576b9dfb4855c187fd15ccb2ee13d0ee4830afd",
+    "packages/talkrax_design/lib/src/theme_contracts.dart": "ace0b855709f989070c04e406beb24095ecdbcdd3b88320cb2cb62f463f61849",
+    "packages/talkrax_design/lib/src/community_theme.dart": "aea21fabefe674223a4d80be7bd6f57ce3d7ad29623467c64f4f62f9e592838b",
+    "packages/talkrax_design/test/community_theme_test.dart": "14d68887741ff9c4f5eb16f3b3d7e917bdbd6651ec9379baf397d69281887f27",
+    "packages/talkrax_connection/LICENSE": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+    "packages/talkrax_connection/README.md": "2069066a2462eb7b589ac9770f43b0fa612dc9f400ae76e9c3d360a29e5bfc35",
+    "packages/talkrax_connection/pubspec.yaml": "f3e7cf06449975c3ea0b58a8a642d60e595cab7d3dc4ec96b7e58c3ee5a7f847",
+    "packages/talkrax_connection/analysis_options.yaml": "69d5fc7c4dc082613882215d52d18b02b1688b833d674ce9b281f45821626b7d",
+    "packages/talkrax_connection/lib/talkrax_connection.dart": "25ac39d5b8fce3f8c4df028764b4375af849041dd92a96ee4ba542884e9b46f2",
+    "packages/talkrax_connection/lib/src/server_connection.dart": "6406f1bf97217708217511168b075c7859b95b604120e21995e3d4980d8cc07f",
+    "packages/talkrax_connection/lib/src/server_instance_info.dart": "e0cd5f66fecd1000a595d5e5d5126253d4c965dc289be08802bc676ff79370d7",
+    "packages/talkrax_connection/lib/src/token_storage_backend.dart": "39b003ea3e9ee3f87b95287f1451bce6ed946197bb78df04cd32b6da2c6a62ad",
+    "packages/talkrax_connection/test/connection_test.dart": "6c0df2950f13e6ac43fb8007bce8ed5cd3541fb2cd7244672550df33da62478d"
+  }
+}

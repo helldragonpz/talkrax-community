@@ -46,3 +46,12 @@ The tests use synthetic healthy/failing image variants; they do not certify a
 future server schema migration. Existing server binaries and their licence are
 unchanged. The complete independently buildable open-source application is not
 released; proprietary artwork and hosted-only code still require separation.
+
+## Community source modules 2026.09.27.1
+
+Two AGPL-3.0-only packages now build independently from public source:
+talkrax_design (5 tests) and talkrax_connection (6 tests). Both pass static
+analysis. See [source build instructions](SOURCE_BUILD.md) and
+[licence scope](../LICENSING.md). They include no premium artwork or private
+repository history. This release does not replace the binary preview and does
+not provide the full client/server application source or new native installers.
